@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "monoplane"
 version = "0.0.0"
-description = "Monoplane is a tiny tool designed to help you run multiple processes in your local development environment. It's like a very stripped down docker compose for local shell commands. Especially useful for monorepos. Obviously, not for production."
+description = "Monoplane is a tiny tool designed to help you run multiple processes in your local development environment. Especially useful for monorepos."
 authors = ["Yegor Tokmakov <yegor@tokmakov.biz>"]
 repository = "https://github.com/yegortokmakov/monoplane"
 license = "MIT"
