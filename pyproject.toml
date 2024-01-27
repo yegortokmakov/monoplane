@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "monoplane"
+version = "0.0.0"
+description = "Monoplane is a tiny tool designed to help you run multiple processes in your local development environment. It's like a very stripped down docker compose for local shell commands. Especially useful for monorepos. Obviously, not for production."
+authors = ["Yegor Tokmakov <yegor@tokmakov.biz>"]
+repository = "https://github.com/yegortokmakov/monoplane"
+license = "MIT"
+readme = "README.md"
+keywords = ["monorepo", "development", "local"]
+
+[tool.poetry.urls]
+"Bug Tracker" = "https://github.com/yegortokmakov/monoplane/issues"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+readchar = "^4.0.5"
+PyYAML = "^6.0.1"
+psutil = "^5.9.8"
+tabulate = "^0.9.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning>=1.0.0,<2.0.0"]
+build-backend = "poetry_dynamic_versioning.backend"
+
+[tool.poetry.scripts]
+monoplane = "monoplane.cli:cli"
+mp = "monoplane.cli:cli"
+
+[tool.poetry-dynamic-versioning]
+enable = true
