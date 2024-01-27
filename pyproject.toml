@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "monoplane"
-version = "0.1"
+version = "0.0.0"
 description = "Monoplane is a tiny tool designed to help you run multiple processes in your local development environment. Especially useful for monorepos."
 authors = ["Yegor Tokmakov <yegor@tokmakov.biz>"]
 repository = "https://github.com/yegortokmakov/monoplane"
