@@ -10,15 +10,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: Build and publish to TESTpypi
-        uses: JRubics/poetry-publish@v1.16
-        if: github.ref == 'refs/heads/main'
-        with:
-          pypi_token: ${{ secrets.PYPI_TOKEN_TEST }}
-          repository_name: "testpypi"
-          repository_url: "https://test.pypi.org/legacy/"
-          plugins: "poetry-dynamic-versioning[plugin]"
+      - uses: actions/checkout@v4
+      # TODO: figure out the right version format to avoid HTTP Error 400: '0.0.0.post1.dev0+d94ae2e' is an invalid value for Version. Error: Can't use PEP 440 local versions. See https://packaging.python.org/specifications/core-metadata for more information.
+      #   - name: Build and publish to TESTpypi
+      #     uses: JRubics/poetry-publish@v1.16
+      #     if: github.ref == 'refs/heads/main'
+      #     with:
+      #       pypi_token: ${{ secrets.PYPI_TOKEN_TEST }}
+      #       repository_name: "testpypi"
+      #       repository_url: "https://test.pypi.org/legacy/"
+      #       plugins: "poetry-dynamic-versioning[plugin]"
       - name: Build and publish to pypi
         uses: JRubics/poetry-publish@v1.16
         if: github.event_name == 'release'
