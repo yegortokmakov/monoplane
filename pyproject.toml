@@ -27,4 +27,4 @@ monoplane = "monoplane.cli:cli"
 mp = "monoplane.cli:cli"
 
 [tool.poetry-dynamic-versioning]
-enable = true
+style = "semver"

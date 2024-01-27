@@ -16,7 +16,6 @@ jobs:
         if: github.ref == 'refs/heads/main'
         with:
           pypi_token: ${{ secrets.PYPI_TOKEN_TEST }}
-          plugins: "poetry-dynamic-versioning[plugin]"
           repository_name: "testpypi"
           repository_url: "https://test.pypi.org/legacy/"
       - name: Build and publish to pypi
