@@ -16,6 +16,16 @@ jobs:
       - name: Build and publish to pypi
         uses: JRubics/poetry-publish@v2.0
         if: github.event_name == 'release'
+        env:
+          # The action is a container running as root over a workspace owned by
+          # the runner user, so git refuses it as dubious ownership and dunamai
+          # cannot run `git describe` to derive the version. Set through the
+          # environment rather than a config file: a `git config --global` step
+          # would write to the runner's HOME, which is not the HOME the
+          # container sees.
+          GIT_CONFIG_COUNT: "1"
+          GIT_CONFIG_KEY_0: safe.directory
+          GIT_CONFIG_VALUE_0: "*"
         with:
           pypi_token: ${{ secrets.PYPI_TOKEN }}
           plugins: "poetry-dynamic-versioning[plugin]"
