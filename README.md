@@ -42,5 +42,6 @@ Some useful commands (just press key while running):
 -   `s` - print status of all services
 -   `b` - execute all build commands
 -   `c` - clear screen
+-   `q` - stop all services and quit
 
 Notes added in the config file will be printed when you press `s`. Useful for adding links to your service endpoints to avoid remembering ports and typing them over and over again.
