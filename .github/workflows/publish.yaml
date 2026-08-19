@@ -10,11 +10,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - run: |
           git fetch --prune --unshallow --tags
       - name: Build and publish to pypi
-        uses: JRubics/poetry-publish@v2.0
+        uses: JRubics/poetry-publish@v2.1
         if: github.event_name == 'release'
         env:
           # The action is a container running as root over a workspace owned by
