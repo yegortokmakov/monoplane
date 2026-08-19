@@ -255,12 +255,9 @@ def terminate(processes):
                 pass
 
 
-def stop_processes():
-    stopping.set()
-
-    services = [s for s in manifest.get("services", []) if s.get("process")]
-    terminate([s["process"] for s in services] + build_processes)
-    build_processes.clear()
+def stop_services(services):
+    services = [s for s in services if s.get("process")]
+    terminate([s["process"] for s in services])
 
     # The readers exit on EOF once the children are gone, closing their pty as
     # they go. Joining them here is what keeps a restart from accumulating a
@@ -269,6 +266,40 @@ def stop_processes():
         for thread in service.pop("threads", []):
             thread.join(timeout=2)
         service.pop("process", None)
+
+
+def stop_processes():
+    stopping.set()
+    stop_services(manifest.get("services", []))
+    terminate(build_processes)
+    build_processes.clear()
+
+
+def reload_manifest():
+    """Re-read monoplane.yml without disturbing what is already running.
+
+    load_manifest replaces every service dict, so the handles for the running
+    processes have to be carried across by name or there is nothing left to
+    stop them with.
+    """
+    running = {s["name"]: s for s in manifest.get("services", []) if s.get("process")}
+    load_manifest()
+
+    for service in manifest["services"]:
+        carried = running.pop(service["name"], None)
+        if carried:
+            service["process"] = carried["process"]
+            service["threads"] = carried["threads"]
+
+    if running:
+        write_line(
+            "** stop " + ", ".join(running) + ": no longer in monoplane.yml"
+        )
+        stopping.set()
+        try:
+            stop_services(running.values())
+        finally:
+            stopping.clear()
 
 
 def print_process_status():
@@ -327,6 +358,12 @@ def cli():
                 case "s":
                     print_process_status()
                 case "b":
+                    # Picks up an edited build command or env without the
+                    # restart that `r` would force on every service.
+                    try:
+                        reload_manifest()
+                    except (OSError, yaml.YAMLError, ValueError) as e:
+                        write_line(f"** monoplane.yml could not be reloaded: {e}")
                     build_processes_run()
                 case "c":
                     os.system("clear")
